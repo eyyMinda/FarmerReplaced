@@ -40,7 +40,7 @@ Solution for the dinosaur pattern challenge (snake game variant). Creates a spec
 
 Utility for running challenge solutions in loops, useful for testing and optimization.
 
-## Utility Modules (`util/`)
+## Utility Modules (`utils/`)
 
 ### `FarmingChecks.py`
 

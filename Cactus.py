@@ -1,11 +1,10 @@
 from Helpers import goto
 from Helpers import moveToNextTile
-from FarmingUtils import TillAll
 
 def plantAll(crop, size):
 	bX = size
 	bY = bX
-	dir = North
+	dir = East
 	
 	for n in range(bX*bY):	
 		if (get_entity_type() != crop):
@@ -47,11 +46,6 @@ def sortCactuses(size):
 	
 def doCactus(size):
 	goto(0, 0)
-	bX = size
-	bY = bX
-	area = bX*bY
-	sorted = 0
-	dir = North
 	
 	plantAll(Entities.Cactus, size)
 	sortCactuses(size)

@@ -1,3 +1,8 @@
+from Maze import startMaze
+from Poly import polyculture
+from Replant import replant
+from Replant import replantPumpkin
+
 def start():
     clear()
     do_a_flip()
@@ -14,7 +19,7 @@ def start():
     function = 2
     list = [size, entity, buySeeds]
 
-    treasure = True
+    treasure = False
     poly = True
 
     while True:
@@ -22,7 +27,7 @@ def start():
             if treasure == True:
                 startMaze()
             elif poly == True:
-                polyculture(9999, size, water, 1)
+                polyculture(size, water, 1)
             else:
                 if entity == Entities.Pumpkin:
                     replantPumpkin(size, entity, buySeeds)
@@ -76,21 +81,22 @@ def statsLoop(loops, function, list):
     endTime = get_time()
     endInventory = get_inventory()
 
-    ignoreItems = [Items.Empty_Tank, Items.Water_Tank,
-                   Items.Carrot_Seed, Items.Pumpkin_Seed]
+    ignoreItems = [Items.Water]
 
     for i in range(invLen):
         currItem = startInventory[i][0]
         startAmount = startInventory[i][1]
         endAmount = endInventory[i][1]
-        continue = True
+        moveOn = True
         for n in range(len(ignoreItems)):
             if ignoreItems[n] == currItem:
-                continue = False
+                moveOn = False
 
-        if continue == True and endAmount != startAmount:
+        if moveOn == True and endAmount != startAmount:
             profitAmount = endAmount - startAmount
             profit.append([currItem, profitAmount])
 
     timeSpent = endTime - startTime
     return [timeSpent, profit]
+    
+start()

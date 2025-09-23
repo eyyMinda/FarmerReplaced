@@ -1,26 +1,42 @@
-#---------- General
+import FarmingUtils
+import FarmingChecks
+from Helpers import fieldGrid
+from Helpers import goto
 
+plantData = {
+	Entities.Grass: { "till": False },
+	Entities.Bush: { "till": False },
+	Entities.Tree: { "till": False },
+	Entities.Carrot: { "till": True },
+	Entities.Cactus: { "till": True },
+	Entities.Sunflower: { "till": True },
+	"mix": { "till": False }
+}
+
+#---------- General
 def replant(size, entity, water, buySeeds):
     for x in range(size):
         for y in range(size):
 
             if can_harvest():
                 harvest()
-                if entity == Entities.Carrots:
-                    Till()
-                    if buySeeds > 0 and x == 0 and y == 0:
-                        checkSeeds(size, entity, buySeeds)
+                if plantData[entity]["till"]:
+                    FarmingUtils.Till()
+                    #if buySeeds > 0 and x == 0 and y == 0:
+                        #checkSeeds(size, entity, buySeeds)
 
-                if entity == Entities.Bush:
+                if entity == Entities.Bush or entity == "mix":
                     if x % 2 == 0 and y % 2 == 1 or x % 2 == 1 and y % 2 == 0:
                         plant(Entities.Tree)
-                        useFertilizer()
+                        FarmingUtils.use_fertilizer()
+                    elif entity == "mix":
+                        FarmingUtils.Till()
+                        plant(Entities.Carrot)
 
-                if entity != Entities.Grass:
+                if entity != Entities.Grass and entity != "mix":
                     plant(entity)
 
-                    if get_water() <= water:
-                        use_item(Items.Water_Tank)
+                    FarmingUtils.use_water()
             # y end
             move(North)
         # x end
@@ -28,7 +44,6 @@ def replant(size, entity, water, buySeeds):
 
 
 #-------- Pumpkins
-
 def replantPumpkin(size, entity, buySeeds):
     field = fieldGrid(size, False)
 
@@ -36,10 +51,10 @@ def replantPumpkin(size, entity, buySeeds):
         for x in range(size):
             for y in range(size):
 
-                if not is_over(entity):
-                    Till()
-                    if buySeeds > 0 and z == 0 and x == 0 and y == 0:
-                        checkSeeds(size, entity, buySeeds)
+                if not FarmingChecks.is_over(entity):
+                    FarmingUtils.Till()
+                    #if buySeeds > 0 and z == 0 and x == 0 and y == 0:
+                        #checkSeeds(size, entity, buySeeds)
                     plant(entity)
 
                     if z > 0:
@@ -68,10 +83,9 @@ def fillRemaining(size, entity, field):
                 if field[x][y] == True:
                     hasLeft = True
                     goto(x, y)
-                    if not is_over(entity):
-                        Till()
+                    if not FarmingChecks.is_over(entity):
+                        FarmingUtils.Till()
                         plant(entity)
-                        useFertilizer()
                     elif can_harvest():
                         field[x][y] = False
 

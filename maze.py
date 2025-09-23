@@ -1,10 +1,22 @@
+import FarmingUtils
+import FarmingChecks
+from Replant import replant
+from Helpers import fieldGrid
+from Helpers import goto
+
 def startMaze():
     clear()
     plant(Entities.Bush)
-    while not is_over(Entities.Hedge) and not is_over(Entities.Treasure):
-        useFertilizer()
+    while not FarmingChecks.is_over(Entities.Hedge) and not FarmingChecks.is_over(Entities.Treasure):
+        useSubstance()
     solveMaze()
-
+    
+def useSubstance():
+	n_substance = get_world_size() * 1 #num_unlocked(Unlocks.Mazes)
+	if num_items(Items.Weird_Substance) >= n_substance:
+		use_item(Items.Weird_Substance, n_substance)
+	else:
+		replant(get_world_size(), Entities.Bush, 0.3, False)
 
 def solveMaze():
 
@@ -29,7 +41,7 @@ def findTreasure():
     path = [[get_pos_x(), get_pos_y()]]
 
     while True:
-        if is_over(Entities.Treasure):
+        if FarmingChecks.is_over(Entities.Treasure):
             harvest()
             break
 
@@ -61,7 +73,7 @@ def findTreasure():
             if len(freedom) == 2:
                 been.pop()
             been.append(pos)
-            backtrack(a, posX, posY)
+            FarmingUtils.backtrack(a, posX, posY)
 
 
 def getBranching():
@@ -85,14 +97,3 @@ def getBranching():
             branching.append([direction, [newX, newY]])
         ind += 1
     return branching
-
-
-def backtrack(route, x, y):
-    if x > route[0]:
-        move(West)
-    elif x < route[0]:
-        move(East)
-    elif y > route[1]:
-        move(South)
-    elif y < route[1]:
-        move(North)

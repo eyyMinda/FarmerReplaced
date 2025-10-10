@@ -47,7 +47,7 @@ def replant(size, entity, water, buySeeds):
 def replantPumpkin(size, entity, buySeeds):
     field = fieldGrid(size, False)
 
-    for z in range(3):
+    for z in range(2):
         for x in range(size):
             for y in range(size):
 

@@ -1,4 +1,4 @@
-# The Farmer Was Replaced
+# The Farmer Was Replaced 1.0
 
 My solutions to coding challenges in "The Farmer Was Replaced" - a programming puzzle game where you write scripts to automate farming tasks, solve mazes, and complete various algorithmic challenges.
 

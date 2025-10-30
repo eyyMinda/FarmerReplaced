@@ -16,7 +16,8 @@ def polyculture(size, water, buySeeds):
 						#checkSeeds(size, entity, buySeeds)
 					plant(entity)
 					use_water()
-					field[companion[1][0]][companion[1][1]] = companion[0]
+					if companion != None:
+						field[companion[1][0]][companion[1][1]] = companion[0]
 				else:
 					plant(Entities.Grass)
 				move(North)
